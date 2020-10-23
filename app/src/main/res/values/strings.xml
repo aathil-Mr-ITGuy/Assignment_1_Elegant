@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Login Screen</string>
+    <string name="email_sent">Email has been sent</string>
+    <string name="logoDesc">Elegant Camping Logo</string>
+    <string name="emailHint">Email</string>
+    <string name="passwordHint">Password</string>
+    <string name="nameHint">User Name</string>
+    <string name="rePasswordHint">Re enter Password</string>
+    <string name="forgetPassword">Forget Password ?</string>
+    <string name="login">Login</string>
+    <string name="signUp">Sign Up</string>
+    <string name="string_join">Join With Us</string>
+    <string name="orSignIn">or SignIn? </string>\
+    <string name="resetPassword">Reset Password </string>
+    <string name="emailSent">An email will be sent with a link to reset your password</string>
+</resources>

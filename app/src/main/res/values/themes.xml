@@ -1,0 +1,41 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.LoginScreen" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">@color/red_var</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+    <!-- This style is for the splash screen -->
+    <style name="Theme.LoginScreen.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!-- This style is for the splash screen -->
+    <style name="Theme.LoginScreen.WithActionBar">
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">false</item>
+        <item name="android:background">@color/red_var</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!-- Splash Screen theme -->
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/spalsh_back</item>
+    </style>
+
+    <style name="ButtonStyle" parent="android:style/Widget.Button">
+        <item name="android:textSize">19sp</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:background">#000</item>
+    </style>
+</resources>
