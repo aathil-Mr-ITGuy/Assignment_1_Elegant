@@ -1,5 +1,6 @@
 package com.aathil.loginscreen.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AlertDialog
@@ -49,8 +50,8 @@ class HomeActivity : AppCompatActivity() {
 
                     logoutAlert.setPositiveButton("YES"){
                         logoutAlert, id ->
-                        //Todo
-                        logoutAlert.dismiss()
+
+                        startActivity(Intent(this, LogInActivity:: class.java))
                     }
                     logoutAlert.setNegativeButton("NO"){
                         logoutAlert, id ->
