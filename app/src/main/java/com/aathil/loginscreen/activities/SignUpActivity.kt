@@ -5,6 +5,7 @@ import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageButton
@@ -14,10 +15,7 @@ import kotlinx.android.synthetic.main.activity_sign_up.emailError
 import kotlinx.android.synthetic.main.activity_sign_up.emailInput
 import kotlinx.android.synthetic.main.activity_sign_up.passwordError
 import kotlinx.android.synthetic.main.activity_sign_up.passwordInput
-import validations.isEmailValid
-import validations.isEmpty
-import validations.isNamevalid
-import validations.isPassWordValid
+import validations.*
 
 class SignUpActivity : AppCompatActivity() {
 
@@ -63,76 +61,60 @@ class SignUpActivity : AppCompatActivity() {
 //
 //    }
 
-    private fun validation(){
+
+    var valid = false
+    fun validation(){
 
         var userName: String = nameInput.text.toString()
         var email: String = emailInput.text.toString()
         var password1 : String = passwordInput.text.toString()
         var password2 : String = password2Input.text.toString()
+        var passwordBool = false
 
-        //validation
-        var isEmailValid : Boolean = email.isEmailValid()
-        var isEmailEmpty: Boolean = email.isEmpty()
-        var isNameValid: Boolean = userName.isNamevalid()
-        var isNameEmpty: Boolean = userName.isEmpty()
-        var isPassword1Valid: Boolean = password1.isPassWordValid()
-        var isPassword2Valid: Boolean = password2.isPassWordValid()
-        var isPassword1Empty: Boolean = password1.isEmpty()
-        var isPassword2Empty: Boolean = password2.isEmpty()
+        var (emailError, emailBool) = validEmail(email)
+        Log.d("email", emailBool.toString())
+        if(emailError != ""){
 
-        //email
-        if(isEmailEmpty){
-            if(!isEmailValid){
-                emailInput.error = "Please Insert Valid email"
-
-            }
-//            else{
-//                emailInput.error = "Please Insert Valid email"
-//            }
-        }
-        else{
-            emailInput.error = "Email Should not be empty"
+            emailInput.error  = emailError
         }
 
-        //password 1
-        if(isPassword1Empty){
-            if(!isPassword1Valid){
-                passwordInput.error = "Password should be 5-20 length and should start with alphabets"
-            }
-//            else{
-//                passwordInput.error = "Password should be 5-20 length and should start with alphabets"
-//            }
-        }
-        else{
-            passwordInput.error = "Password Should not be empty"
+        var (userNameError, userNameBool) = validName(userName)
+        Log.d("user name", userNameBool.toString())
+        if(userNameError != ""){
+
+            nameInput.error  = userNameError
         }
 
-        //password 2
-        if(!isPassword2Empty){
-            password2Input.error = "Re-enter the password please"
+        var (password1Error, password1NameBool) = validPass(password1)
+        Log.d("pass1", password1NameBool.toString())
+        if(password1Error != ""){
+
+            passwordInput.error  = password1Error
         }
 
+        var (password2Error, password2NameBool) = validPass2(password2)
+        Log.d("pass2", password2NameBool.toString())
+        if(password2Error != ""){
 
-        //name
-        if(isNameEmpty){
-            if(!isNameValid){
-                nameInput.error = "Please Insert Valid Name"
-            }
-//            else{
-//                nameInput.error = "Please Insert Valid Name"
-//            }
+            password2Input.error  = password2Error
         }
-        else{
-            nameInput.error = "User Name Should not be empty"
-        }
-
-        if(isPassword1Valid && isPassword2Valid){
+        if(password1NameBool && password2NameBool){
             if(password1 != password2){
                 passwordInput.error = "Passwords are not matching"
                 password2Input.error = "Passwords are not matching"
+
+            }
+            else{
+                passwordBool = true
             }
         }
 
+
+        if(emailBool && userNameBool && passwordBool){
+
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+        }
 
 
 
@@ -143,5 +125,6 @@ class SignUpActivity : AppCompatActivity() {
 
     fun signUp(view: View){
         validation()
+
     }
 }
