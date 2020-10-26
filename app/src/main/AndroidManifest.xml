@@ -9,15 +9,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LoginScreen">
+        <activity
+            android:name=".activities.HomeActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/Theme.LoginScreen.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-        <activity android:name=".activities.SignUpActivity" android:theme="@style/Theme.LoginScreen.NoActionBar" ></activity>
-
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.SignUpActivity"
+            android:theme="@style/Theme.LoginScreen.NoActionBar" />
         <activity
             android:name=".activities.ForgetPassword"
-            android:theme="@style/Theme.LoginScreen.WithActionBar"
             android:parentActivityName=".activities.LogInActivity"
-            />
-
+            android:theme="@style/Theme.LoginScreen.WithActionBar" />
         <activity
             android:name=".activities.SplashActivity"
             android:theme="@style/SplashTheme">
@@ -27,7 +35,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activities.LogInActivity"
             android:theme="@style/Theme.LoginScreen.NoActionBar">

@@ -13,4 +13,23 @@
     <string name="orSignIn">or SignIn? </string>\
     <string name="resetPassword">Reset Password </string>
     <string name="emailSent">An email will be sent with a link to reset your password</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_about">About Us</string>
+    <string name="menu_privacy">Privacy Policy</string>
+    <string name="menu_logout">Logout</string>
+
+    <string name="title">The Elegant Camping</string>
+    <string name="slogan">Camping is Easy Here</string>
+    <string name="menu_gallery"> Menu Gallery</string>
+    <string name="menu_slideshow">Menu Slideshow</string>
+
 </resources>

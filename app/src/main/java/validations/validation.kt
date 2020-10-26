@@ -28,3 +28,4 @@ fun String.isNamevalid(): Boolean {
 
 fun String.isEmpty() =
     !TextUtils.isEmpty(this)
+
