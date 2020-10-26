@@ -11,6 +11,11 @@ import validations.isEmailValid
 import validations.isEmpty
 
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_login.emailInput
+import kotlinx.android.synthetic.main.activity_login.passwordInput
+import kotlinx.android.synthetic.main.activity_sign_up.*
+import validations.validEmail
+import validations.validPass2
 
 
 class LogInActivity : AppCompatActivity() {
@@ -22,7 +27,7 @@ class LogInActivity : AppCompatActivity() {
         progressDialog = ProgressDialog(this)
         progressDialog!!.setTitle("Page is Loading")
         progressDialog!!.setMessage("Loading...")
-        progressDialog!!.setIndeterminate(true);
+        progressDialog!!.isIndeterminate = true
 
     }
 
@@ -58,24 +63,21 @@ class LogInActivity : AppCompatActivity() {
         var email : String = emailInput.text.toString()
         var password:String = passwordInput.text.toString()
 
-        if(email.isEmpty()){
-            if(!(email.isEmailValid())){
+        var (emailError, emailBool) = validEmail(email)
+        var (passwordError, passwordBool) = validPass2(password)
 
-                emailInput.error = "Please Insert Valid email"
+        if(emailError != ""){
 
-            }
-//            else{
-//                emailError.text = "Please Insert Valid email"
-//            }
-        }
-        else{
-//            Toast.makeText(applicationContext,"Email Should not be empty", Toast.LENGTH_SHORT).show()
-//            emailInput.error = "Email Should not be empty"
-            emailInput.error = "Email Should not be empty"
+            emailInput.error  = emailError
         }
 
-        if(!(password.isEmpty())){
-            passwordInput.error = "Password Should not be empty"
+        if(passwordError != ""){
+
+            passwordInput.error  = "Password Should not be empty"
+        }
+
+        if(emailBool && passwordBool){
+            startActivity(Intent(this, HomeActivity::class.java))
         }
 
 

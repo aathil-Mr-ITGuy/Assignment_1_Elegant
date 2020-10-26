@@ -62,8 +62,8 @@ class SignUpActivity : AppCompatActivity() {
 //    }
 
 
-    var valid = false
-    fun validation(){
+
+    private fun validation(){
 
         var userName: String = nameInput.text.toString()
         var email: String = emailInput.text.toString()
