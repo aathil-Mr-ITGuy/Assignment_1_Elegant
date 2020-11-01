@@ -128,9 +128,7 @@ class LogInActivity : AppCompatActivity() {
         }
 
         if(emailBool && passwordBool){
-//            Firebase().finalLogin(email,password)
-//            val intent = Intent(this, HomeActivity::class.java)
-//            startActivity(intent)
+
             try {
 
                     mAuth!!.signInWithEmailAndPassword(email, password)
@@ -172,14 +170,13 @@ class LogInActivity : AppCompatActivity() {
     }
 
     fun signUp(view: View){
-//        startActivity(Intent(this, SignUpActivity::class.java))
+
         try {
             AsyncTaskExample(this).execute()
         }catch (ex: Exception){
             Log.d("Success", ex.toString())
         }
-//        AsyncTaskExample(this).execute()
-//        Loading.Companion.MyTask(this).execute()
+
 
     }
 }
