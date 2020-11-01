@@ -21,12 +21,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.aathil.loginscreen.R
 import com.google.firebase.auth.FirebaseAuth
+import javax.security.auth.login.LoginException
 
 class HomeActivity : AppCompatActivity() {
     var mAuth: FirebaseAuth? = null
 
-//    //define shared preference file name
-//    private val sharedFile = "sharedpreference"
+    //define shared preference file name
+    val sharedFile = "sharedpreference"
+
+    var sharedPreference: SharedPreferences? = null
+
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
@@ -37,26 +41,15 @@ class HomeActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
 
-//        var currentUserId = mAuth!!.currentUser?.uid
-//
-//        //define shared preference
-//
-//        val sharedPreference: SharedPreferences = getSharedPreferences(sharedFile, Context.MODE_PRIVATE)
-////        val editor: SharedPreferences.Editor = sharedPreference.edit()
-//
-//
-//            //put into shared preference
-//        editor.putString("userId", currentUserId)
-//
-//            //apply the changes
-//            editor.apply()
-//
-//            //commit the changes
-//            editor.commit()
-//
+
+        sharedPreference = getSharedPreferences(sharedFile, Context.MODE_PRIVATE)
+
+        var sharedEmail = sharedPreference!!.getString("email", "")
 
 
-
+        if(sharedEmail == ""){
+            startActivity(Intent(this, LogInActivity::class.java))
+        }
 
         mAuth = FirebaseAuth.getInstance()
 
@@ -86,6 +79,7 @@ class HomeActivity : AppCompatActivity() {
                         logoutAlert, id ->
                         mAuth!!.signOut()
                         mAuth!!.currentUser?.uid?.let { it1 -> Log.d("Current User", it1) }
+                        sharedEmail = sharedPreference!!.getString("email", "")
                         startActivity(Intent(this, LogInActivity:: class.java))
                     }
                     logoutAlert.setNegativeButton("NO"){
@@ -112,4 +106,9 @@ class HomeActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
+//    fun navigate(email: String){
+//        val email = LogInActivity().getFromShared()
+//
+//    }
 }

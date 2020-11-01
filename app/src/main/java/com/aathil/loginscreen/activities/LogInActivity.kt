@@ -1,7 +1,9 @@
 package com.aathil.loginscreen.activities
 
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -24,6 +26,11 @@ class LogInActivity : AppCompatActivity() {
     var progressDialog: ProgressDialog? = null
     var currentUserId : String? = null
 
+    //define shared preference file name
+    val sharedFile = "sharedpreference"
+
+    var sharedPreference: SharedPreferences? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +44,44 @@ class LogInActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
         currentUserId = mAuth!!.currentUser?.uid
 
+        sharedPreference = getSharedPreferences(sharedFile, Context.MODE_PRIVATE)
+
+//        getFromShared()
+
     }
+
+    private fun insertToShared(email: String){
+        val editor: SharedPreferences.Editor = sharedPreference!!.edit()
+
+        //put into shared preference
+
+        editor.putString("email", email)
+
+
+        //apply the changes
+        editor.apply()
+
+        //commit the changes
+        editor.commit()
+        val sharedEmail = sharedPreference!!.getString("email", "")
+
+
+
+
+    }
+
+
+//    public fun getFromShared(): String? {
+//        val sharedEmail = sharedPreference!!.getString("email", "")
+//        return sharedEmail
+//
+//
+////        if(sharedEmail != ""){
+////            startActivity(Intent(this, HomeActivity::class.java))
+////
+////        }
+//    }
+
 
 
 //    fun showPass(view: View){
@@ -88,10 +132,11 @@ class LogInActivity : AppCompatActivity() {
 //            val intent = Intent(this, HomeActivity::class.java)
 //            startActivity(intent)
             try {
-                if(currentUserId != null){
+
                     mAuth!!.signInWithEmailAndPassword(email, password)
                             .addOnCompleteListener(this) { task ->
                                 if(task.isSuccessful){
+                                    insertToShared(email)
                                     Toast.makeText(applicationContext, "Successfully Logged In", Toast.LENGTH_SHORT).show()
                                     val intent = Intent(this, HomeActivity::class.java)
                                     startActivity(intent)
@@ -103,11 +148,7 @@ class LogInActivity : AppCompatActivity() {
                                 }
 
                             }
-                }
-            else{
-                val intent = Intent(this, HomeActivity::class.java)
-                startActivity(intent)
-            }
+
 
             }catch (ex: Exception){
                 Log.d("Login Error", ex.toString())
