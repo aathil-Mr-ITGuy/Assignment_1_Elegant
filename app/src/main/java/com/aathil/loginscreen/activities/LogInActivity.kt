@@ -3,34 +3,41 @@ package com.aathil.loginscreen.activities
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.aathil.loginscreen.R
+import com.google.firebase.auth.FirebaseAuth
 import common.AsyncTaskExample
-import validations.isEmailValid
-import validations.isEmpty
 
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login.emailInput
 import kotlinx.android.synthetic.main.activity_login.passwordInput
-import kotlinx.android.synthetic.main.activity_sign_up.*
 import validations.validEmail
 import validations.validPass2
 
 
 class LogInActivity : AppCompatActivity() {
 
+    var mAuth: FirebaseAuth? = null
+
     var progressDialog: ProgressDialog? = null
+    var currentUserId : String? = null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
         progressDialog = ProgressDialog(this)
         progressDialog!!.setTitle("Page is Loading")
         progressDialog!!.setMessage("Loading...")
         progressDialog!!.isIndeterminate = true
 
-    }
+        mAuth = FirebaseAuth.getInstance()
+        currentUserId = mAuth!!.currentUser?.uid
 
+    }
 
 
 //    fun showPass(view: View){
@@ -77,7 +84,36 @@ class LogInActivity : AppCompatActivity() {
         }
 
         if(emailBool && passwordBool){
-            startActivity(Intent(this, HomeActivity::class.java))
+//            Firebase().finalLogin(email,password)
+//            val intent = Intent(this, HomeActivity::class.java)
+//            startActivity(intent)
+            try {
+                if(currentUserId != null){
+                    mAuth!!.signInWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(this) { task ->
+                                if(task.isSuccessful){
+                                    Toast.makeText(applicationContext, "Successfully Logged In", Toast.LENGTH_SHORT).show()
+                                    val intent = Intent(this, HomeActivity::class.java)
+                                    startActivity(intent)
+                                }
+                                else{
+                                    Toast.makeText(applicationContext, "Something went wrong", Toast.LENGTH_SHORT).show()
+                                    val ex: Exception? = null
+                                    Log.d("Error", ex!!.toString())
+                                }
+
+                            }
+                }
+            else{
+                val intent = Intent(this, HomeActivity::class.java)
+                startActivity(intent)
+            }
+
+            }catch (ex: Exception){
+                Log.d("Login Error", ex.toString())
+            }
+
+
         }
 
 
@@ -95,7 +131,13 @@ class LogInActivity : AppCompatActivity() {
     }
 
     fun signUp(view: View){
-        AsyncTaskExample(this).execute()
+//        startActivity(Intent(this, SignUpActivity::class.java))
+        try {
+            AsyncTaskExample(this).execute()
+        }catch (ex: Exception){
+            Log.d("Success", ex.toString())
+        }
+//        AsyncTaskExample(this).execute()
 //        Loading.Companion.MyTask(this).execute()
 
     }

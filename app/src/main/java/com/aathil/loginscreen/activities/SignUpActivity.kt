@@ -9,7 +9,11 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageButton
+import android.widget.Toast
 import com.aathil.loginscreen.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import kotlinx.android.synthetic.main.activity_sign_up.emailError
 import kotlinx.android.synthetic.main.activity_sign_up.emailInput
@@ -19,13 +23,35 @@ import validations.*
 
 class SignUpActivity : AppCompatActivity() {
 
+    var mAuth: FirebaseAuth? = null
+    private var database: FirebaseDatabase? = null
+    private var myRef: DatabaseReference? = null
+
+
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
 
+        mAuth = FirebaseAuth.getInstance()
+//
+        database = FirebaseDatabase.getInstance()
+        myRef = database!!.reference
 
 
+
+    }
+
+
+
+    fun updateToDb(email:String, userName: String){
+        var userId = 0
+        myRef!!.child("users").child(userId.toString()).child("email").setValue(email)
+        myRef!!.child("users").child(userId.toString()).child("userName").setValue(userName)
+        userId += 1
     }
 
 
@@ -69,6 +95,8 @@ class SignUpActivity : AppCompatActivity() {
         var email: String = emailInput.text.toString()
         var password1 : String = passwordInput.text.toString()
         var password2 : String = password2Input.text.toString()
+
+
         var passwordBool = false
 
         var (emailError, emailBool) = validEmail(email)
@@ -111,9 +139,44 @@ class SignUpActivity : AppCompatActivity() {
 
 
         if(emailBool && userNameBool && passwordBool){
+            Log.d("valid", "All data are valid")
 
-            val intent = Intent(this, HomeActivity::class.java)
-            startActivity(intent)
+            try {
+                mAuth!!.createUserWithEmailAndPassword(email,password1)
+                        .addOnCompleteListener(this) { task ->
+                            if(task.isSuccessful){
+                                Toast.makeText(applicationContext, "Successfully Account Created", Toast.LENGTH_SHORT).show()
+                                try{
+                                    updateToDb(email, userName)
+//                                    myRef!!.child("users").child(userId.toString()).child("email").setValue(email)
+//                                    myRef!!.child("users").child(userId.toString()).child("userName").setValue(userName)
+//                                    userId += 1
+                                }catch (ex: Exception){
+                                    Log.d("saving problem", ex.toString())
+                                }
+
+//                                updateToDb()
+                                val intent = Intent(this, LogInActivity::class.java)
+                                startActivity(intent)
+//                        var currentUser = mAuth!!.currentUser
+//                        Log.d("Current user",currentUser!!.uid)
+                            }
+                            else{
+                                Toast.makeText(applicationContext, "Something went wrong", Toast.LENGTH_SHORT).show()
+                                val ex: Exception? = null
+                                Log.d("Error", ex!!.toString())
+                            }
+
+                        }
+
+            }catch (ex: Exception){
+                Log.d("Sign up", ex.toString())
+            }
+
+
+
+//            val intent = Intent(this, LogInActivity::class.java)
+//            startActivity(intent)
         }
 
 
